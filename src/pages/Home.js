@@ -1,9 +1,9 @@
 import HeroSection from './HeroSection'
 const Home = () => {
     return ( 
-        <>
-            THIS IS HOME PAGE
-        </>
+        <div className=''>
+            <HeroSection/>
+        </div>
      );
 }
  

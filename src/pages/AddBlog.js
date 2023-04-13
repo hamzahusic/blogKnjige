@@ -1,16 +1,17 @@
 import { useState } from "react";
+import LoginForm from "../components/LoginForm";
 
 const BlogPost = () => {
     const [user,setUser] = useState(false);
     return ( 
         <div>
             {user ? (
-                <div>
+                <div className="pt-14">
                     <h1>Logged in</h1>
                 </div>
             ) : (
                 <div>
-                    <h1>Not logged in</h1>
+                    <LoginForm setUser={setUser}/>
                 </div>
             )}
         </div>
