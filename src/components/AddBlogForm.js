@@ -2,8 +2,9 @@ import { useState } from "react";
 import { addDoc, collection} from "firebase/firestore"; 
 import { db, storage } from "../firebaseConfig";
 import { PhotoIcon } from '@heroicons/react/24/solid'
-import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
+import { ref, uploadBytes } from "firebase/storage";
 import { v4 } from "uuid";
+import { toast } from "react-hot-toast";
 const AddBlogForm = () => {
     const [title,setTitle] = useState('');
     const [content,setContent] = useState('');
@@ -11,7 +12,6 @@ const AddBlogForm = () => {
     const [readingtime,setReadingtime] = useState('');
     const [description,setDescription] = useState('');
     const [thumbnailImage,setThumbnailImage] = useState(null);
-    const [thumbnailPath,setThumbnailPath] = useState('');
 
     const uploadImage = (e) => {
         e.preventDefault();
@@ -22,43 +22,25 @@ const AddBlogForm = () => {
         //Doesn't work for some reason
 
         uploadBytes(thumbnailRef,thumbnailImage)
-        .then(() => {
-          console.log("Image uploded")
-          setThumbnailPath(`images/${imagePath}`)
-          addBlogPost()
+        .then(async (res) => {
+          //On what date it's published
+          const docRef = addDoc(collection(db, "blogs"), {
+              title: title,
+              content:  content,
+              category : category,
+              readingTime:readingtime,
+              date : new Date(),
+              description : description,
+              imageUrl : `images/${imagePath}`,
+            });
+
+            toast.promise(docRef, {
+                loading: "Adding...",
+                success: "Added",
+                error: "Error adding"
+            })
         })
         .catch((error) => console.log("Error uploading image",error))
-        
-    }
-
-    const addBlogPost = async () => {
-        
-        //On what date it's published
-        const date = new Date();
-        let currentDay= String(date.getDate()).padStart(2, '0');
-        let currentMonth = String(date.getMonth()+1).padStart(2,"0");
-        let currentYear = date.getFullYear();
-
-        let datePublished = `${currentDay}-${currentMonth}-${currentYear}`;
-        
-        const docRef = await addDoc(collection(db, "blogs"), {
-            title: title,
-            content:  content,
-            category : category,
-            readingTime:readingtime,
-            date : datePublished,
-            description : description,
-            imageUrl : thumbnailPath,
-          });
-
-          setTitle("")
-          setContent("")
-          setCategory("")
-          setDescription("")
-          setReadingtime("")
-          setThumbnailImage(null)
-          setThumbnailPath("")
-
     }
 
     return ( 
