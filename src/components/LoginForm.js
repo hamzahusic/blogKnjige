@@ -1,7 +1,30 @@
 import { useState } from "react";
-
+import { signInWithEmailAndPassword } from "firebase/auth";
+import { auth } from "../firebaseConfig";
 const LoginForm = ({setUser}) => {
     const [passBtn,setPassBtn] = useState('password');
+    const [pass,setPass] = useState(null);
+    const [email,setEmail] = useState(null);
+
+    const signInUserr = (e) => {
+        e.preventDefault();
+        
+        signInWithEmailAndPassword(auth, email, pass)
+          .then((userCredential) => {
+            // Signed in 
+            console.log(userCredential.user);
+            setUser(true);
+            // ...
+          })
+          .catch((error) => {
+            const errorCode = error.code;
+            const errorMessage = error.message;
+            alert(errorMessage)
+            setUser(false);
+          });
+
+    }
+
     return ( 
                 <div className="mx-auto max-w-screen-xl px-4 py-20 sm:px-6 lg:px-8">
                     <div className="mx-auto max-w-lg">
@@ -14,6 +37,7 @@ const LoginForm = ({setUser}) => {
                         </p>
 
                         <form
+                        onSubmit={signInUserr}
                         action=""
                         className="mt-6 mb-0 space-y-4 rounded-lg p-4 shadow-lg sm:p-6 lg:p-8"
                         >
@@ -24,6 +48,7 @@ const LoginForm = ({setUser}) => {
 
                             <div className="relative">
                             <input
+                                onChange={(e) => {setEmail(e.target.value)}}
                                 type="email"
                                 className="w-full rounded-lg border-gray-200 p-4 pr-12 text-sm shadow-sm"
                                 placeholder="Enter email"
@@ -55,6 +80,7 @@ const LoginForm = ({setUser}) => {
 
                             <div className="relative">
                             <input
+                                onChange={(e) => {setPass(e.target.value)}}
                                 type={passBtn}
                                 className="w-full rounded-lg border-gray-200 p-4 pr-12 text-sm shadow-sm"
                                 placeholder="Enter password"

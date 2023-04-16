@@ -1,64 +1,90 @@
-import { useState } from 'react'
+import { ChevronRightIcon } from '@heroicons/react/24/solid'
 
-export default function HeroSection() {
-
+export default function Example() {
   return (
-    <div className="bg-white">
-      <div className="relative isolate px-6 pt-14 lg:px-8">
-        <div
-          className="absolute inset-x-0 -top-40 -z-10 transform-gpu overflow-hidden blur-3xl sm:-top-80"
-          aria-hidden="true"
-        >
-          <div
-            className="relative left-[calc(50%-11rem)] aspect-[1155/678] w-[36.125rem] -translate-x-1/2 rotate-[30deg] bg-gradient-to-tr from-[#ff80b5] to-[#9089fc] opacity-30 sm:left-[calc(50%-30rem)] sm:w-[72.1875rem]"
-            style={{
-              clipPath:
-                'polygon(74.1% 44.1%, 100% 61.6%, 97.5% 26.9%, 85.5% 0.1%, 80.7% 2%, 72.5% 32.5%, 60.2% 62.4%, 52.4% 68.1%, 47.5% 58.3%, 45.2% 34.5%, 27.5% 76.7%, 0.1% 64.9%, 17.9% 100%, 27.6% 76.8%, 76.1% 97.7%, 74.1% 44.1%)',
-            }}
-          />
-        </div>
-        <div className="mx-auto max-w-2xl py-32 sm:py-48 lg:py-56">
-          <div className="hidden sm:mb-8 sm:flex sm:justify-center">
-            <div className="relative rounded-full px-3 py-1 text-sm leading-6 text-gray-600 ring-1 ring-gray-900/10 hover:ring-gray-900/20">
-              Announcing our next round of funding.{' '}
-              <a href="#" className="font-semibold text-indigo-600">
-                <span className="absolute inset-0" aria-hidden="true" />
-                Read more <span aria-hidden="true">&rarr;</span>
-              </a>
+    <div className="bg-white pb-8 sm:pb-12 lg:pb-12">
+      <div className="pt-8 overflow-hidden sm:pt-12 lg:relative lg:py-48">
+        <div className="mx-auto max-w-md px-4 sm:max-w-3xl sm:px-6 lg:px-8 lg:max-w-7xl lg:grid lg:grid-cols-2 lg:gap-24">
+          <div>
+            <div>
+              <img
+                className="h-11 w-auto"
+                src="https://tailwindui.com/img/logos/workflow-mark.svg?color=indigo&shade=600"
+                alt="Workflow"
+              />
+            </div>
+            <div className="mt-20">
+              <div>
+                <a href="#" className="inline-flex space-x-4">
+                  <span className="rounded bg-indigo-50 px-2.5 py-1 text-xs font-semibold text-indigo-600 tracking-wide uppercase">
+                    What's new
+                  </span>
+                  <span className="inline-flex items-center text-sm font-medium text-indigo-600 space-x-1">
+                    <span>Just shipped version 0.1.0</span>
+                    <ChevronRightIcon className="h-5 w-5" aria-hidden="true" />
+                  </span>
+                </a>
+              </div>
+              <div className="mt-6 sm:max-w-xl">
+                <h1 className="text-4xl font-extrabold text-gray-900 tracking-tight sm:text-5xl">
+                  Knjige o nekim stvarima koje su zanimljive
+                </h1>
+                <p className="mt-6 text-xl text-gray-500">
+                  Anim aute id magna aliqua ad ad non deserunt sunt. Qui irure qui lorem cupidatat commodo.
+                </p>
+              </div>
+              <div className="flex gap-5 lg:mt-5 sm:mt-0 ">
+                  <button
+                    type="submit"
+                    className="block w-full rounded-md border border-transparent px-5 py-3 bg-gray-800 text-base font-medium text-white shadow hover:bg-gray-500 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 sm:px-10"
+                  >
+                    Contact Me
+                  </button>
+                  <button
+                    type="submit"
+                    className="block w-full rounded-md border border-transparent px-5 py-3 bg-indigo-600 text-base font-medium text-white shadow hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 sm:px-10"
+                  >
+                    Read my blogs
+                  </button>
+                </div>
             </div>
           </div>
-          <div className="text-center">
-            <h1 className="text-4xl font-bold tracking-tight text-gray-900 sm:text-6xl">
-              KNJIGE O NEKIM GLUPOSTIMA
-            </h1>
-            <p className="mt-6 text-lg leading-8 text-gray-600">
-              Anim aute id magna aliqua ad ad non deserunt sunt. Qui irure qui lorem cupidatat commodo. Elit sunt amet
-              fugiat veniam occaecat fugiat aliqua.
-            </p>
-            <div className="mt-10 flex items-center justify-center gap-x-6">
-              <a
-                href="#"
-                className="rounded-md bg-indigo-600 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+        </div>
+
+        <div className="sm:mx-auto sm:max-w-3xl sm:px-6">
+          <div className="py-12 sm:relative sm:mt-12 sm:py-16 lg:absolute lg:inset-y-0 lg:right-0 lg:w-1/2">
+            <div className="hidden sm:block">
+              <div className="absolute inset-y-0 left-1/2 w-screen bg-gray-50 rounded-l-3xl lg:left-80 lg:right-0 lg:w-full" />
+              <svg
+                className="absolute top-8 right-1/2 -mr-3 lg:m-0 lg:left-0"
+                width={404}
+                height={392}
+                fill="none"
+                viewBox="0 0 404 392"
               >
-                Get started
-              </a>
-              <a href="#" className="text-sm font-semibold leading-6 text-gray-900">
-                Learn more <span aria-hidden="true">→</span>
-              </a>
+                <defs>
+                  <pattern
+                    id="837c3e70-6c3a-44e6-8854-cc48c737b659"
+                    x={0}
+                    y={0}
+                    width={20}
+                    height={20}
+                    patternUnits="userSpaceOnUse"
+                  >
+                    <rect x={0} y={0} width={4} height={4} className="text-gray-200" fill="currentColor" />
+                  </pattern>
+                </defs>
+                <rect width={404} height={392} fill="url(#837c3e70-6c3a-44e6-8854-cc48c737b659)" />
+              </svg>
+            </div>
+            <div className="relative pl-4 -mr-40 sm:mx-auto sm:max-w-3xl sm:px-0 lg:max-w-none lg:h-full lg:pl-12">
+              <img
+                className="w-full rounded-md shadow-xl ring-1 ring-black ring-opacity-5 lg:h-full lg:w-auto lg:max-w-none"
+                src="https://images.pexels.com/photos/207662/pexels-photo-207662.jpeg?auto=compress&cs=tinysrgb&w=1920&h=1080&dpr=1"
+                alt=""
+              />
             </div>
           </div>
-        </div>
-        <div
-          className="absolute inset-x-0 top-[calc(100%-13rem)] -z-10 transform-gpu overflow-hidden blur-3xl sm:top-[calc(100%-30rem)]"
-          aria-hidden="true"
-        >
-          <div
-            className="relative left-[calc(50%+3rem)] aspect-[1155/678] w-[36.125rem] -translate-x-1/2 bg-gradient-to-tr from-[#ff80b5] to-[#9089fc] opacity-30 sm:left-[calc(50%+36rem)] sm:w-[72.1875rem]"
-            style={{
-              clipPath:
-                'polygon(74.1% 44.1%, 100% 61.6%, 97.5% 26.9%, 85.5% 0.1%, 80.7% 2%, 72.5% 32.5%, 60.2% 62.4%, 52.4% 68.1%, 47.5% 58.3%, 45.2% 34.5%, 27.5% 76.7%, 0.1% 64.9%, 17.9% 100%, 27.6% 76.8%, 76.1% 97.7%, 74.1% 44.1%)',
-            }}
-          />
         </div>
       </div>
     </div>
