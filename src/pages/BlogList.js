@@ -21,6 +21,8 @@ const BlogList = () => {
                     blog.imageURL = url;
                     setBlogs(blogs);
                     setLoading(true);
+                    console.log(blog)
+
                 }).catch((error) => {
                     console.log(error);
                 });
