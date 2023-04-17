@@ -6,29 +6,37 @@ import { BarLoader } from "react-spinners";
 
 const BlogList = () => {
     const [blogs, setBlogs] = useState([]);
-    const [loading, setLoading] = useState(false);
+const [loading, setLoading] = useState(false);
 
-    useEffect(() => {
-        const unsubscribe = onSnapshot(collection(db, "blogs"), (snapshot) => {
-            const blogs = []
-            snapshot.docs.map(doc => {
-                blogs.push({ id: doc.id, ...doc.data() })
-            })
+useEffect(() => {
+  const unsubscribe = onSnapshot(collection(db, "blogs"), (snapshot) => {
+    const blogs = [];
+    snapshot.docs.forEach((doc) => {
+      blogs.push({ id: doc.id, ...doc.data() });
+    });
 
-            blogs.forEach(blog => {
-                const storageRef = ref(storage, blog.imageUrl);
-                getDownloadURL(storageRef).then((url) => {
-                    blog.imageURL = url;
-                    setBlogs(blogs);
-                    setLoading(true);
-                }).catch((error) => {
-                    console.log(error);
-                });
-            });
+    const promises = blogs.map((blog) => {
+      const storageRef = ref(storage, blog.imageUrl);
+      return getDownloadURL(storageRef)
+        .then((url) => {
+          blog.imageURL = url;
+          return blog;
         })
+        .catch((error) => {
+          console.log(error);
+          return blog;
+        });
+    });
 
-        return () => unsubscribe()
-    }, [])
+    Promise.all(promises).then((blogs) => {
+      setBlogs(blogs);
+      setLoading(true);
+    });
+  });
+
+  return () => unsubscribe();
+}, []);
+
 
     return ( 
         <div className="relative pt-16 pb-20 px-4 sm:px-6 lg:pt-32 lg:pb-28 lg:px-8">
