@@ -43,7 +43,7 @@ const BlogList = () => {
                     {blogs && loading && blogs.map((blog) => (
                         <div key={blog.id} className="flex flex-col rounded-lg shadow-lg overflow-hidden">
                             <div className="flex-shrink-0">
-                                <img className="h-48 w-full object-cover" src={blog.imageURL} alt="" />
+                                <img className="h-48 w-full object-cover" src={blog.imageURL} alt="Image" />
                             </div>
                             <div className="flex-1 bg-white p-6 flex flex-col justify-between">
                                 <div className="flex-1">
@@ -55,13 +55,19 @@ const BlogList = () => {
                                         <p className="mt-3 text-base text-gray-500">{blog.description}</p>
                                     </a>
                                 </div>
+                                <p className="text-sm font-bold pt-4">Vrijeme citanja : {blog.readingTime}</p>
                             </div>
                         </div>
                     ))}
                 </div>
-                {!loading && (
+                {!loading && blogs && (
                     <div className="w-full flex items-center justify-center">
                         <BarLoader width="50%" color="blue" />
+                    </div>
+                )}
+                {loading && !blogs && (
+                    <div className="w-full flex items-center justify-center text-3xl font-bold text-blue-900">
+                        NO BLOGS YET!!!
                     </div>
                 )}
             </div>

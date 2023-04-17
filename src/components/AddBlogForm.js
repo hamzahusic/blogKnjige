@@ -19,7 +19,6 @@ const AddBlogForm = () => {
 
         const imagePath = thumbnailImage.name + v4();
         const thumbnailRef = ref(storage, `images/${imagePath}`);
-        //Doesn't work for some reason
 
         uploadBytes(thumbnailRef,thumbnailImage)
         .then(async (res) => {
@@ -35,16 +34,23 @@ const AddBlogForm = () => {
             });
 
             toast.promise(docRef, {
-                loading: "Adding...",
-                success: "Added",
-                error: "Error adding"
+                loading: "Adding blog...",
+                success: "Added blog",
+                error: "Error adding blog!!!"
             })
+
+            setTitle('')
+            setContent('')
+            setCategory('')
+            setDescription('')
+            setReadingtime('')
+            setThumbnailImage(null)
         })
         .catch((error) => console.log("Error uploading image",error))
     }
 
     return ( 
-        <div className="max-w-[1200px] mx-auto py-10">
+        <div className="max-w-[1100px] mx-auto p-[50px]">
         <form onSubmit={uploadImage}>
         <div className="space-y-12">
           <div className="border-b border-gray-900/10 pb-12">
@@ -85,7 +91,7 @@ const AddBlogForm = () => {
                     id="content"
                     name="content"
                     rows={12}
-                    className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                    className="block w-full rounded-md border-0 p-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                   />
                 </div>
                 <p className="mt-3 text-sm leading-6 text-gray-600">Ovdje napisite sav sadrzaj bloga</p>
@@ -147,7 +153,7 @@ const AddBlogForm = () => {
                     type="text"
                     name="kategorija"
                     id="kategorija"
-                    className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                    className="block w-full rounded-md border-0 p-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                   />
                 </div>
               </div>
@@ -163,7 +169,7 @@ const AddBlogForm = () => {
                     type="text"
                     name="vrijeme-citanja"
                     id="vrijeme-citanja"
-                    className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                    className="block w-full rounded-md border-0 p-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                   />
                 </div>
               </div>
@@ -180,7 +186,7 @@ const AddBlogForm = () => {
                     id="deskripcija"
                     name="deskripcija"
                     rows={3}
-                    className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                    className="block w-full rounded-md border-0 p-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                   />
                 </div>
               </div>
