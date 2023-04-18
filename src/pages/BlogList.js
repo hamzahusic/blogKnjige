@@ -4,6 +4,7 @@ import { db, storage } from "../firebaseConfig";
 import { collection, onSnapshot } from "firebase/firestore";
 import { BarLoader } from "react-spinners";
 import { useRef } from "react";
+import { Link } from "react-router-dom";
 
 const BlogList = () => {
     const blogList = useRef([])
@@ -24,6 +25,7 @@ const BlogList = () => {
                     setLoading(true);
                 }).catch((error) => {
                     console.log(error);
+                    setLoading(true);
                 });
             });
         })
@@ -42,9 +44,10 @@ const BlogList = () => {
                 </div>
                 <div className="mt-12 max-w-lg mx-auto grid gap-5 lg:grid-cols-3 lg:max-w-none">
                     {blogList && loading && blogList.current.map((blog) => (
-                        <div key={blog.id} className="flex flex-col rounded-lg shadow-lg overflow-hidden">
+                        <div key={blog.id} >
+                            <Link to = {`/BlogList/blog/${blog.id}`} className="flex flex-col rounded-lg shadow-lg overflow-hidden min-h-full">
                             <div className="flex-shrink-0">
-                                <img className="h-48 w-full object-cover" src={blog.imageURL} alt="" />
+                                <img className="h-48 w-full object-cover" src={blog.imageURL} alt="Image" />
                             </div>
                             <div className="flex-1 bg-white p-6 flex flex-col justify-between">
                                 <div className="flex-1">
@@ -57,6 +60,7 @@ const BlogList = () => {
                                     </a>
                                 </div>
                             </div>
+                        </Link>
                         </div>
                     ))}
                 </div>
