@@ -3,10 +3,11 @@ import { useEffect, useState } from "react";
 import { db, storage } from "../firebaseConfig";
 import { collection, onSnapshot } from "firebase/firestore";
 import { BarLoader } from "react-spinners";
+import { Link } from "react-router-dom";
 
 const BlogList = () => {
     const [blogs, setBlogs] = useState([]);
-const [loading, setLoading] = useState(false);
+    const [loading, setLoading] = useState(false);
 
 useEffect(() => {
   const unsubscribe = onSnapshot(collection(db, "blogs"), (snapshot) => {
@@ -49,22 +50,27 @@ useEffect(() => {
                 </div>
                 <div className="mt-12 max-w-lg mx-auto grid gap-5 lg:grid-cols-3 lg:max-w-none">
                     {blogs && loading && blogs.map((blog) => (
-                        <div key={blog.id} className="flex flex-col rounded-lg shadow-lg overflow-hidden">
+                        
+                        
+                        <div key={blog.id} >
+                            <Link to={`blog/${blog.id}`} className="flex flex-col rounded-lg shadow-lg overflow-hidden min-h-full">
+                            
                             <div className="flex-shrink-0">
                                 <img className="h-48 w-full object-cover" src={blog.imageURL} alt="Image" />
                             </div>
-                            <div className="flex-1 bg-white p-6 flex flex-col justify-between">
-                                <div className="flex-1">
-                                    <p className="text-sm font-medium text-indigo-600">
-                                        {blog.category}
-                                    </p>
-                                    <a href={blog.href} className="block mt-2">
-                                        <p className="text-xl font-semibold text-gray-900">{blog.title}</p>
-                                        <p className="mt-3 text-base text-gray-500">{blog.description}</p>
-                                    </a>
+                                <div className="flex-1 bg-white p-6 flex flex-col justify-between">
+                                    <div className="flex-1">
+                                        <p className="text-sm font-medium text-indigo-600">
+                                            {blog.category}
+                                        </p>
+                                        <a href={blog.href} className="block mt-2">
+                                            <p className="text-xl font-semibold text-gray-900">{blog.title}</p>
+                                            <p className="mt-3 text-base text-gray-500">{blog.description}</p>
+                                        </a>
+                                    </div>
+                                    <p className="text-sm font-bold pt-4">Vrijeme citanja : {blog.readingTime}</p>
                                 </div>
-                                <p className="text-sm font-bold pt-4">Vrijeme citanja : {blog.readingTime}</p>
-                            </div>
+                            </Link>
                         </div>
                     ))}
                 </div>

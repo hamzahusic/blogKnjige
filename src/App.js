@@ -4,6 +4,7 @@ import AddBlog from './pages/AddBlog'
 import BlogList from './pages/BlogList'
 import Navbar from "./components/Navbar";
 import { Toaster } from "react-hot-toast";
+import BlogPage from "./pages/BlogPage";
 
 function App() {
   return (
@@ -18,6 +19,7 @@ function App() {
             <Route path="/" element={ <Home/> } />
             <Route path="/BlogList" element={ <BlogList/> } />
             <Route path="/AddBlog" element={ <AddBlog/> } />
+            <Route path="/BlogList/blog/:id" element={<BlogPage/>}/>
           </Routes>
         </div>
     </>
