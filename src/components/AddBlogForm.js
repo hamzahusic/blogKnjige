@@ -1,18 +1,32 @@
 import { useState } from "react";
 import { addDoc, collection} from "firebase/firestore"; 
-import { db, storage } from "../firebaseConfig";
+import { auth, db, storage } from "../firebaseConfig";
 import { PhotoIcon } from '@heroicons/react/24/solid'
 import { ref, uploadBytes } from "firebase/storage";
 import { v4 } from "uuid";
 import { toast } from "react-hot-toast";
+import { signOut } from "firebase/auth";
+import Cookies from "js-cookie";
 
-const AddBlogForm = () => {
+const AddBlogForm = ({setUser}) => {
+
     const [title,setTitle] = useState('');
     const [content,setContent] = useState('');
     const [category,setCategory] = useState('');
     const [readingtime,setReadingtime] = useState('');
     const [description,setDescription] = useState('');
     const [thumbnailImage,setThumbnailImage] = useState(null);
+
+    const signOutUser = () => {
+      signOut(auth).then(() => {
+        // Sign-out successful.
+        setUser(false)
+        Cookies.remove('user');
+      }).catch((error) => {
+        // An error happened.
+        alert("Error signing out!!!")
+      });
+    }
 
     const uploadImage = (e) => {
         e.preventDefault();
@@ -51,15 +65,19 @@ const AddBlogForm = () => {
     }
 
     return ( 
-        <div className="max-w-[1100px] mx-auto p-[50px]">
+        <div className="max-w-[1100px] mx-auto p-[50px] relative">
         <form onSubmit={uploadImage}>
         <div className="space-y-12">
           <div className="border-b border-gray-900/10 pb-12">
-            <h2 className="text-2xl font-semibold leading-7 text-gray-900">Ubacivanje bloga</h2>
-            <p className="mt-1 text-sm leading-6 text-gray-600">
-              Ovdje ubacujete sadrzaj za vas blog
-            </p>
-  
+            <div className="flex justify-between">
+              <div>
+                <h2 className="text-2xl font-semibold leading-7 text-gray-900">Ubacivanje bloga</h2>
+                <p className="mt-1 text-sm leading-6 text-gray-600">
+                  Ovdje ubacujete sadrzaj za vas blog
+                </p>
+              </div>
+              <button onClick={signOutUser} className="h-10 bg-blue-600 text-white font-bold py-2 px-5 rounded-lg">Sign Out</button>
+            </div>
             <div className="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
               <div className="sm:col-span-4">
                 <label htmlFor="title" className="block text-sm font-medium leading-6 text-gray-900">

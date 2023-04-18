@@ -1,16 +1,21 @@
-import { getDownloadURL, ref } from "firebase/storage";
+import { deleteObject, getDownloadURL, ref } from "firebase/storage";
 import { useEffect, useState } from "react";
 import { db, storage } from "../firebaseConfig";
-import { collection, onSnapshot } from "firebase/firestore";
+import { collection, deleteDoc, doc, onSnapshot } from "firebase/firestore";
 import { BarLoader } from "react-spinners";
 import { useRef } from "react";
 import { Link } from "react-router-dom";
+import Cookies from "js-cookie";
 
 const BlogList = () => {
     const blogList = useRef([])
     const [loading, setLoading] = useState(false);
+    const [user,setUser] = useState(null);//Only for delete button
 
     useEffect(() => {
+        //Set's user if there is cookie
+        setUser(Cookies.get("user"));
+
         const unsubscribe = onSnapshot(collection(db, "blogs"), (snapshot) => {
             const blogs = []
             snapshot.docs.map(doc => {
@@ -33,6 +38,19 @@ const BlogList = () => {
         return () => unsubscribe()
     }, [])
 
+    const deleteBlog = async (blog) => {
+        const desertRef = ref(storage,  blog.imageUrl);
+        // Delete the file
+        deleteObject(desertRef).then(() => {
+        // File deleted successfully
+            deleteDoc(doc(db, "blogs", blog.id))
+        }).catch((error) => {
+        // Uh-oh, an error occurred!
+        alert("Error deleting blog!!")
+        console.log(error)
+        });
+    }
+
     return ( 
         <div className="relative pt-16 pb-20 px-4 sm:px-6 lg:pt-32 lg:pb-28 lg:px-8">
             <div className="relative max-w-7xl mx-auto">
@@ -44,29 +62,36 @@ const BlogList = () => {
                 </div>
                 <div className="mt-12 max-w-lg mx-auto grid gap-5 lg:grid-cols-3 lg:max-w-none">
                     {blogList && loading && blogList.current.map((blog) => (
-                        <div key={blog.id} >
+                        <div key={blog.id} className="relative">
+                            {user && <button onClick={() => deleteBlog(blog)} className="absolute top-[-10px] right-[-10px] font-bold text-white bg-gray-500 py-2 px-4 rounded-full">X</button>}
                             <Link to = {`/BlogList/blog/${blog.id}`} className="flex flex-col rounded-lg shadow-lg overflow-hidden min-h-full">
-                            <div className="flex-shrink-0">
-                                <img className="h-48 w-full object-cover" src={blog.imageURL} alt="Image" />
-                            </div>
-                            <div className="flex-1 bg-white p-6 flex flex-col justify-between">
-                                <div className="flex-1">
-                                    <p className="text-sm font-medium text-indigo-600">
-                                        {blog.category}
-                                    </p>
-                                    <a href={blog.href} className="block mt-2">
-                                        <p className="text-xl font-semibold text-gray-900">{blog.title}</p>
-                                        <p className="mt-3 text-base text-gray-500">{blog.description}</p>
-                                    </a>
+                                <div className="flex-shrink-0">
+                                    <img className="h-48 w-full object-cover" src={blog.imageURL} alt="Image" />
                                 </div>
-                            </div>
-                        </Link>
+                                <div className="flex-1 bg-white p-6 flex flex-col justify-between">
+                                    <div className="flex-1">
+                                        <p className="text-sm font-medium text-indigo-600">
+                                            {blog.category}
+                                        </p>
+                                        <div className="block mt-2">
+                                            <p className="text-xl font-semibold text-gray-900">{blog.title}</p>
+                                            <p className="mt-3 text-base text-gray-500">{blog.description}</p>
+                                        </div>
+                                    </div>
+                                    <p className="text-sm font-bold pt-4">Vrijeme citanja : {blog.readingTime}</p>
+                                </div>
+                            </Link>
                         </div>
                     ))}
                 </div>
                 {!loading && (
                     <div className="w-full flex items-center justify-center">
                         <BarLoader width="50%" color="blue" />
+                    </div>
+                )}
+                {loading && !blogList && (
+                    <div className="w-full flex items-center justify-center">
+                        <h1>No blogs yet!!!</h1>
                     </div>
                 )}
             </div>
