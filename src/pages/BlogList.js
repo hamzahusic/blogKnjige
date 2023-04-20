@@ -8,7 +8,7 @@ import { Link } from "react-router-dom";
 import Cookies from "js-cookie";
 
 const BlogList = () => {
-    const blogList = useRef([])
+    const [blogList,setBlogList] = useState()
     const [loading, setLoading] = useState(false);
     const [user,setUser] = useState(null);//Only for delete button
 
@@ -26,13 +26,14 @@ const BlogList = () => {
                 const storageRef = ref(storage, blog.imageUrl);
                 getDownloadURL(storageRef).then((url) => {
                     blog.imageURL = url;
-                    blogList.current = blogs
-                    setLoading(true);
+                    setBlogList ([...blogs])
+                    setLoading(true)
                 }).catch((error) => {
                     console.log(error);
-                    setLoading(true);
+                    setLoading(true)
                 });
             });
+            
         })
 
         return () => unsubscribe()
@@ -40,12 +41,16 @@ const BlogList = () => {
 
     const deleteBlog = async (blog) => {
         const desertRef = ref(storage,  blog.imageUrl);
+        //to show user it's changing
+        setLoading(true)
         // Delete the file
         deleteObject(desertRef).then(() => {
         // File deleted successfully
             deleteDoc(doc(db, "blogs", blog.id))
+            setLoading(true)
         }).catch((error) => {
         // Uh-oh, an error occurred!
+            setLoading(true)
         alert("Error deleting blog!!")
         console.log(error)
         });
@@ -61,7 +66,7 @@ const BlogList = () => {
                     </p>
                 </div>
                 <div className="mt-12 max-w-lg mx-auto grid gap-5 lg:grid-cols-3 lg:max-w-none">
-                    {blogList && loading && blogList.current.map((blog) => (
+                    {blogList && loading && blogList.map((blog) => (
                         <div key={blog.id} className="relative">
                             {user && <button onClick={() => deleteBlog(blog)} className="absolute top-[-10px] right-[-10px] font-bold text-white bg-gray-500 py-2 px-4 rounded-full">X</button>}
                             <Link to = {`/BlogList/blog/${blog.id}`} className="flex flex-col rounded-lg shadow-lg overflow-hidden min-h-full">
