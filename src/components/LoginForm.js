@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { auth } from "../firebaseConfig";
-import Cookies from "js-cookie";
+
 const LoginForm = ({setUser}) => {
     const [passBtn,setPassBtn] = useState('password');
     const [pass,setPass] = useState(null);
@@ -14,8 +14,7 @@ const LoginForm = ({setUser}) => {
           .then((userCredential) => {
             // Signed in 
             console.log(userCredential.user);
-            setUser(true);
-            Cookies.set('user', `${userCredential.user.uid}`, { expires: 1 });
+            setUser(userCredential.user)
             // ...
           })
           .catch((error) => {

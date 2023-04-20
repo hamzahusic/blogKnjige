@@ -56,10 +56,10 @@ const RecentBlogs = () => {
                     <p className="text-sm font-medium text-indigo-600">
                         {blog.category}
                     </p>
-                    <a href={"#"} className="block mt-2">
+                    <div href={"#"} className="block mt-2">
                       <p className="text-xl font-semibold text-gray-900">{blog.title}</p>
                       <p className="mt-3 text-base text-gray-500">{blog.description}</p>
-                    </a>
+                    </div>
                   </div>
                     <p className="text-sm font-bold pt-4">Vrijeme citanja : {blog.readingTime}</p>
                 </div>

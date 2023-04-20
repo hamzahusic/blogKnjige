@@ -1,21 +1,19 @@
 import { deleteObject, getDownloadURL, ref } from "firebase/storage";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { db, storage } from "../firebaseConfig";
 import { collection, deleteDoc, doc, onSnapshot } from "firebase/firestore";
 import { BarLoader } from "react-spinners";
-import { useRef } from "react";
 import { Link } from "react-router-dom";
-import Cookies from "js-cookie";
+import { UserContext } from "../lib/userContext";
+
 
 const BlogList = () => {
     const [blogList,setBlogList] = useState()
     const [loading, setLoading] = useState(false);
-    const [user,setUser] = useState(null);//Only for delete button
+
+    const {user} = useContext(UserContext);
 
     useEffect(() => {
-        //Set's user if there is cookie
-        setUser(Cookies.get("user"));
-
         const unsubscribe = onSnapshot(collection(db, "blogs"), (snapshot) => {
             const blogs = []
             snapshot.docs.map(doc => {
@@ -42,7 +40,7 @@ const BlogList = () => {
     const deleteBlog = async (blog) => {
         const desertRef = ref(storage,  blog.imageUrl);
         //to show user it's changing
-        setLoading(true)
+        setLoading(false)
         // Delete the file
         deleteObject(desertRef).then(() => {
         // File deleted successfully

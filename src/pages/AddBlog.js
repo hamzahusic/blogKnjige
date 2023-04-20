@@ -1,14 +1,11 @@
-import { useEffect, useState } from "react";
+import { useContext } from "react";
 import LoginForm from "../components/LoginForm";
 import AddBlogForm from "../components/AddBlogForm";
-import Cookies from "js-cookie";
+import { UserContext } from "../lib/userContext";
 
 const BlogPost = () => {
-    const [user,setUser] = useState(false);
 
-    useEffect(() => {
-        setUser(Cookies.get("user"));
-    },[])
+    const {user,setUser} = useContext(UserContext);
 
     return ( 
         <div>

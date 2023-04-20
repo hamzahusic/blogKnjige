@@ -6,7 +6,6 @@ import { ref, uploadBytes } from "firebase/storage";
 import { v4 } from "uuid";
 import { toast } from "react-hot-toast";
 import { signOut } from "firebase/auth";
-import Cookies from "js-cookie";
 
 const AddBlogForm = ({setUser}) => {
 
@@ -20,15 +19,14 @@ const AddBlogForm = ({setUser}) => {
     const signOutUser = () => {
       signOut(auth).then(() => {
         // Sign-out successful.
-        setUser(false)
-        Cookies.remove('user');
+        setUser(null)
       }).catch((error) => {
         // An error happened.
-        alert("Error signing out!!!")
+        alert("Error signing out!!!",error.message)
       });
     }
 
-    const uploadImage = (e) => {
+    const addBlog = (e) => {
         e.preventDefault();
         if(thumbnailImage === null) return;
 
@@ -66,7 +64,7 @@ const AddBlogForm = ({setUser}) => {
 
     return ( 
         <div className="max-w-[1100px] mx-auto p-[50px] relative">
-        <form onSubmit={uploadImage}>
+        <form onSubmit={addBlog}>
         <div className="space-y-12">
           <div className="border-b border-gray-900/10 pb-12">
             <div className="flex justify-between">
