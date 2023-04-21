@@ -6,10 +6,21 @@ import Navbar from "./components/Navbar";
 import { Toaster } from "react-hot-toast";
 import BlogPage from "./pages/BlogPage";
 import { UserContext } from "./lib/userContext";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { onAuthStateChanged } from "firebase/auth";
+import { auth } from "./firebaseConfig";
+
 
 function App() {
   const [user,setUser] = useState(null);
+  
+  //Listens if user is logged in so when page is refreshed he stays logged in
+  useEffect(() => {
+    onAuthStateChanged(auth, (user) => {
+      user ? setUser(user) : setUser(null);
+    });
+  },[])
+
   return (
     <>
       <UserContext.Provider value={{user,setUser}}>
