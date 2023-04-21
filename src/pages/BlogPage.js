@@ -12,6 +12,7 @@ export default function BlogPage() {
     const [mainImage,setMainImage] = useState('');
     const [loading,setLoading] = useState(true);
     const [splitedContent,setSplitedContent] = useState([]);
+    const [datePublished,setDatePublished] = useState(null);
 
     const splitContent = (str) => {
 
@@ -48,9 +49,10 @@ export default function BlogPage() {
         const addData = async () => {
             const docRef = doc(db, "blogs", id);
             const docSnap = await getDoc(docRef);
-
+            
             if (docSnap.exists()) {
                 setBlogData(docSnap.data())
+                setDatePublished(new Date(docSnap.data().date.seconds*1000))
                 splitContent(docSnap.data().content)
                 //Get main image of blog
                 setLoading(false);
@@ -67,7 +69,7 @@ export default function BlogPage() {
 
         addData()
 
-    },[])
+    },[id])
 
     return (
       <div className="relative py-16 bg-white overflow-hidden">
@@ -151,6 +153,9 @@ export default function BlogPage() {
                 <span className="block text-base text-center text-indigo-600 font-semibold tracking-wide">
                     Vrijeme potrebno za čitanje : {blogData.readingTime}
                 </span>
+                <span className="block text-base text-center text-gray-900 font-semibold tracking-wide py-5">
+                    Objavljeno : {datePublished.toDateString()} at {datePublished.getHours()+':'+datePublished.getMinutes()}
+                </span>
                 </h1>
                 <p className="mt-8 text-md text-gray-500 leading-8">
                 {blogData.description}
@@ -162,7 +167,7 @@ export default function BlogPage() {
                         <img
                             className="w-full rounded-lg max-w-[1100px] mx-auto"
                             src={mainImage}
-                            alt="Main image of blog"
+                            alt="Thumbnail"
                             width={1000}
                             height={673}
                             />
